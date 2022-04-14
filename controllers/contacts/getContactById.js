@@ -3,14 +3,14 @@ const createError = require("http-errors");
 const { Contact } = require("../../models/contact");
 
 const getContactById = async (req, res) => {
-  const { id } = req.params;
-  const result = await Contact.findById(id);
+	const { id } = req.params;
+	const result = await Contact.findById(id).populate("owner", "email subscription");
 
-  if (!result) {
-    throw createError(404, "Not found");
-  }
+	if (!result) {
+		throw createError(404, "Not found");
+	}
 
-  res.status(200).json(result);
+	res.status(200).json(result);
 };
 
 module.exports = getContactById;
