@@ -6,6 +6,18 @@ const ctrl = require("../../controllers/users");
 
 const router = express();
 
+router.get(
+	"/verify/:verificationToken",
+	validation(schemas.joiUpdateVerificationUserSchema),
+	ctrlWrapper(ctrl.verifyUser)
+);
+
+router.post(
+	"/veryfy",
+	validation(schemas.joiVerifyEmailSchema),
+	ctrlWrapper(ctrl.reverifyUser)
+);
+
 router.post(
 	"/signup",
 	validation(schemas.joiSignUpUserSchema),
@@ -33,7 +45,7 @@ router.get(
 router.patch(
 	"/avatars",
 	auth,
-	// validation(schemas.joiUpdateAvatarSchema),
+	validation(schemas.joiUpdateAvatarSchema),
 	upload.single("avatar"),
 	ctrlWrapper(ctrl.updateAvatar)
 );
